@@ -4,6 +4,22 @@ All notable changes are documented here. Format loosely follows [Keep a Changelo
 
 ## [Unreleased]
 
+## [2.7.0] — 2026-07-03
+
+### Added
+- **Post-render artifact checker.** Added `scripts/check-render-output.mjs`, a zero-dependency final HTML/SVG gate that checks for a single SVG block, non-finite SVG values, accidental two-point diagonal arrows, and arrows crossing the legend.
+- **Workflow phase headers, groups, and exception lanes.** Workflow JSON now supports `phases`, `groups`, and `lane.variant: "exception"` so diagrams can make story beats, branch areas, and human/policy stop paths explicit.
+- **Workflow `mainPath` lint.** The workflow renderer can validate that happy-path node ids are linked in order and do not accidentally move backward.
+- **Artifact-check tests.** `test/render-output-checks.test.mjs` covers the new checker, including the legend-collision case that visual review exposed.
+
+### Changed
+- The renderer loop in `SKILL.md` and the workflow README now includes the post-render artifact checker as a standard delivery step.
+- The workflow example was regenerated to demonstrate phases, groups, an exception lane, and clearer return/trace paths.
+
+### Fixed
+- **Same-lane offset routing.** Default same-lane workflow edges with different `yOffset` values now route orthogonally instead of drawing a two-point diagonal.
+- **Legend collision in generated workflow previews.** The generated Archify renderer-pipeline preview now routes the compare path through a lane gap instead of crossing the legend.
+
 ## [2.6.0] — 2026-06-12
 
 ### Added

@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="generator" content="archify 2.6.0">
+  <meta name="generator" content="archify 2.7.0">
   <title>Agent Tool Call Workflow Diagram</title>
   <script>
     // Resolve the theme before first paint so light-preference users don't
@@ -501,7 +501,7 @@
 
     <!-- Main Diagram -->
     <div class="diagram-container">
-      <svg viewBox="0 0 720 780" role="img" aria-label="Agent Tool Call Workflow — Renderer-driven workflow prototype with lanes, anchored nodes, and orthogonal edges (workflow diagram)">
+      <svg viewBox="0 0 720 900" role="img" aria-label="Agent Tool Call Workflow — Renderer-driven workflow prototype with lanes, anchored nodes, and orthogonal edges (workflow diagram)">
         <!-- Definitions -->
         <defs>
           <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
@@ -535,22 +535,46 @@
         <text x="54" y="322" class="t-dim" font-size="10" font-weight="600">03 / Policy Boundary</text>
 
         <rect x="40" y="424" width="640" height="104" rx="10" class="c-lane" stroke-width="1"/>
-        <text x="54" y="446" class="t-dim" font-size="10" font-weight="600">04 / Tool Execution</text>
+        <rect x="46" y="430" width="628" height="92" rx="8" class="c-security-group" stroke-width="1"/>
+        <text x="54" y="446" class="t-security" font-size="10" font-weight="600">EX / Exception Handling</text>
 
         <rect x="40" y="548" width="640" height="104" rx="10" class="c-lane" stroke-width="1"/>
-        <text x="54" y="570" class="t-dim" font-size="10" font-weight="600">05 / Observability</text>
+        <text x="54" y="570" class="t-dim" font-size="10" font-weight="600">05 / Tool Execution</text>
+
+        <rect x="40" y="672" width="640" height="104" rx="10" class="c-lane" stroke-width="1"/>
+        <text x="54" y="694" class="t-dim" font-size="10" font-weight="600">06 / Observability</text>
+
+        <!-- Phase headers -->
+        <line x1="42" y1="35" x2="266" y2="35" class="a-default" stroke-width="1.1"/>
+        <rect x="42" y="27" width="224" height="16" rx="4" class="c-mask"/>
+        <text x="154" y="39" class="t-muted" font-size="8" font-weight="600" text-anchor="middle">Intake</text>
+        <line x1="254" y1="35" x2="476" y2="35" class="a-emphasis" stroke-width="1.1"/>
+        <rect x="254" y="27" width="222" height="16" rx="4" class="c-mask"/>
+        <text x="365" y="39" class="t-backend" font-size="8" font-weight="600" text-anchor="middle">Plan + route</text>
+        <line x1="454" y1="35" x2="671" y2="35" class="a-dashed" stroke-width="1.1"/>
+        <rect x="454" y="27" width="217" height="16" rx="4" class="c-mask"/>
+        <text x="562.5" y="39" class="t-messagebus" font-size="8" font-weight="600" text-anchor="middle">Execute + report</text>
+
+        <!-- Workflow groups -->
+        <rect x="250" y="214" width="230" height="58" rx="9" class="c-lane" stroke-width="1"/>
+        <text x="260" y="228" class="t-backend" font-size="7" font-weight="600">Planning loop</text>
+        <rect x="450" y="586" width="225" height="58" rx="9" class="c-lane" stroke-width="1"/>
+        <text x="460" y="600" class="t-messagebus" font-size="7" font-weight="600">Tool work</text>
+        <rect x="380" y="462" width="295" height="58" rx="9" class="c-security-group" stroke-width="1"/>
+        <text x="390" y="476" class="t-security" font-size="7" font-weight="600">Human or policy stop</text>
 
         <!-- Edge paths -->
         <path d="M 134 119 L 174 119" class="a-default" stroke-width="1.4" marker-end="url(#arrowhead)"/>
         <path d="M 220 145 L 220 166 L 300 166 L 300 209" class="a-emphasis" stroke-width="1.8" marker-end="url(#arrowhead-emphasis)"/>
         <path d="M 346 243 L 384 243" class="a-default" stroke-width="1.4" marker-end="url(#arrowhead)"/>
         <path d="M 430 269 L 430 290 L 430 290 L 430 333" class="a-security" stroke-width="1.4" marker-end="url(#arrowhead-security)"/>
-        <path d="M 430 401 L 430 414 L 500 414 L 500 457" class="a-emphasis" stroke-width="1.8" marker-end="url(#arrowhead-emphasis)"/>
-        <path d="M 546 491 L 579 491" class="a-default" stroke-width="1.4" marker-end="url(#arrowhead)"/>
-        <path d="M 625 517 L 625 673 L 500 673 L 500 641" class="a-dashed" stroke-width="1.4" marker-end="url(#arrowhead-dashed)"/>
-        <path d="M 546 615 L 692 615 L 692 119 L 671 119" class="a-emphasis" stroke-width="1.8" marker-end="url(#arrowhead-emphasis)"/>
-        <path d="M 300 277 L 300 414 L 220 414 L 220 589" class="a-dashed" stroke-width="1.4" marker-end="url(#arrowhead-dashed)"/>
-        <path d="M 266 615 L 454 615" class="a-dashed" stroke-width="1.4" marker-end="url(#arrowhead-dashed)"/>
+        <path d="M 430 401 L 430 476 L 500 476 L 500 581" class="a-emphasis" stroke-width="1.8" marker-end="url(#arrowhead-emphasis)"/>
+        <path d="M 430 401 L 430 414 L 500 414 L 500 465" class="a-security" stroke-width="1.4" marker-end="url(#arrowhead-security)"/>
+        <path d="M 546 491 L 579 491" class="a-dashed" stroke-width="1.4" marker-end="url(#arrowhead-dashed)"/>
+        <path d="M 546 615 L 579 615" class="a-default" stroke-width="1.4" marker-end="url(#arrowhead)"/>
+        <path d="M 671 615 L 692 615 L 692 119 L 671 119" class="a-emphasis" stroke-width="1.2" marker-end="url(#arrowhead-emphasis)"/>
+        <path d="M 625 641 L 625 797 L 500 797 L 500 765" class="a-dashed" stroke-width="1.4" marker-end="url(#arrowhead-dashed)"/>
+        <path d="M 266 739 L 454 739" class="a-dashed" stroke-width="1.4" marker-end="url(#arrowhead-dashed)"/>
 
         <!-- Nodes -->
         <rect x="42" y="93" width="92" height="52" rx="6" class="c-mask"/>
@@ -585,26 +609,36 @@
         <text x="430" y="371" class="t-muted" font-size="8" text-anchor="middle">scope + consent</text>
         <text x="430" y="389" class="t-security" font-size="7" text-anchor="middle">block risky ops</text>
 
-        <rect x="454" y="457" width="92" height="68" rx="6" class="c-mask"/>
-        <rect x="454" y="457" width="92" height="68" rx="6" class="c-messagebus" stroke-width="1.5"/>
-        <text x="500" y="478" class="t-primary" font-size="11" font-weight="600" text-anchor="middle">Tool Call</text>
-        <text x="500" y="495" class="t-muted" font-size="8" text-anchor="middle">shell / browser / MCP</text>
-        <text x="500" y="513" class="t-messagebus" font-size="7" text-anchor="middle">structured result</text>
+        <rect x="454" y="465" width="92" height="52" rx="6" class="c-mask"/>
+        <rect x="454" y="465" width="92" height="52" rx="6" class="c-security" stroke-width="1.5"/>
+        <text x="500" y="486" class="t-primary" font-size="11" font-weight="600" text-anchor="middle">Blocked</text>
+        <text x="500" y="503" class="t-muted" font-size="8" text-anchor="middle">wait or reject</text>
 
         <rect x="579" y="465" width="92" height="52" rx="6" class="c-mask"/>
-        <rect x="579" y="465" width="92" height="52" rx="6" class="c-cloud" stroke-width="1.5"/>
-        <text x="625" y="486" class="t-primary" font-size="11" font-weight="600" text-anchor="middle">External API</text>
-        <text x="625" y="503" class="t-muted" font-size="8" text-anchor="middle">network service</text>
+        <rect x="579" y="465" width="92" height="52" rx="6" class="c-messagebus" stroke-width="1.5"/>
+        <text x="625" y="486" class="t-primary" font-size="11" font-weight="600" text-anchor="middle">Retry Path</text>
+        <text x="625" y="503" class="t-muted" font-size="8" text-anchor="middle">revise request</text>
 
-        <rect x="174" y="589" width="92" height="52" rx="6" class="c-mask"/>
-        <rect x="174" y="589" width="92" height="52" rx="6" class="c-database" stroke-width="1.5"/>
-        <text x="220" y="610" class="t-primary" font-size="11" font-weight="600" text-anchor="middle">Context Store</text>
-        <text x="220" y="627" class="t-muted" font-size="8" text-anchor="middle">repo + memory</text>
+        <rect x="454" y="581" width="92" height="68" rx="6" class="c-mask"/>
+        <rect x="454" y="581" width="92" height="68" rx="6" class="c-messagebus" stroke-width="1.5"/>
+        <text x="500" y="602" class="t-primary" font-size="11" font-weight="600" text-anchor="middle">Tool Call</text>
+        <text x="500" y="619" class="t-muted" font-size="8" text-anchor="middle">shell / browser / MCP</text>
+        <text x="500" y="637" class="t-messagebus" font-size="7" text-anchor="middle">structured result</text>
 
-        <rect x="454" y="589" width="92" height="52" rx="6" class="c-mask"/>
-        <rect x="454" y="589" width="92" height="52" rx="6" class="c-database" stroke-width="1.5"/>
-        <text x="500" y="610" class="t-primary" font-size="11" font-weight="600" text-anchor="middle">Trace Log</text>
-        <text x="500" y="627" class="t-muted" font-size="8" text-anchor="middle">events + output</text>
+        <rect x="579" y="589" width="92" height="52" rx="6" class="c-mask"/>
+        <rect x="579" y="589" width="92" height="52" rx="6" class="c-cloud" stroke-width="1.5"/>
+        <text x="625" y="610" class="t-primary" font-size="11" font-weight="600" text-anchor="middle">External API</text>
+        <text x="625" y="627" class="t-muted" font-size="8" text-anchor="middle">network service</text>
+
+        <rect x="174" y="713" width="92" height="52" rx="6" class="c-mask"/>
+        <rect x="174" y="713" width="92" height="52" rx="6" class="c-database" stroke-width="1.5"/>
+        <text x="220" y="734" class="t-primary" font-size="11" font-weight="600" text-anchor="middle">Context Store</text>
+        <text x="220" y="751" class="t-muted" font-size="8" text-anchor="middle">repo + memory</text>
+
+        <rect x="454" y="713" width="92" height="52" rx="6" class="c-mask"/>
+        <rect x="454" y="713" width="92" height="52" rx="6" class="c-database" stroke-width="1.5"/>
+        <text x="500" y="734" class="t-primary" font-size="11" font-weight="600" text-anchor="middle">Trace Log</text>
+        <text x="500" y="751" class="t-muted" font-size="8" text-anchor="middle">events + output</text>
 
         <!-- Edge labels -->
 
@@ -613,30 +647,29 @@
 
         <rect x="423" y="277.5" width="82" height="14" rx="3" class="c-mask"/>
         <text x="464" y="287.5" class="t-security" font-size="8" text-anchor="middle">needs approval?</text>
-        <rect x="440.8" y="408" width="48.4" height="14" rx="3" class="c-mask"/>
-        <text x="465" y="418" class="t-backend" font-size="8" text-anchor="middle">approved</text>
 
-        <rect x="526.3" y="653" width="72.4" height="14" rx="3" class="c-mask"/>
-        <text x="562.5" y="663" class="t-database" font-size="8" text-anchor="middle">record result</text>
-        <rect x="624.2" y="347" width="91.6" height="14" rx="3" class="c-mask"/>
-        <text x="670" y="357" class="t-backend" font-size="8" text-anchor="middle">summarize outcome</text>
-        <rect x="226.2" y="394" width="67.6" height="14" rx="3" class="c-mask"/>
-        <text x="260" y="404" class="t-database" font-size="8" text-anchor="middle">load context</text>
-        <rect x="327" y="612" width="106" height="14" rx="3" class="c-mask"/>
-        <text x="380" y="622" class="t-database" font-size="8" text-anchor="middle">write trace + memory</text>
+        <rect x="445.6" y="406" width="38.8" height="14" rx="3" class="c-mask"/>
+        <text x="465" y="416" class="t-security" font-size="8" text-anchor="middle">denied</text>
+
+
+
+        <rect x="526.3" y="777" width="72.4" height="14" rx="3" class="c-mask"/>
+        <text x="562.5" y="787" class="t-database" font-size="8" text-anchor="middle">record result</text>
+        <rect x="326.4" y="725" width="77.2" height="14" rx="3" class="c-mask"/>
+        <text x="365" y="735" class="t-database" font-size="8" text-anchor="middle">trace + memory</text>
 
         <!-- Legend -->
-        <text x="175" y="676" class="t-primary" font-size="10" font-weight="600">Legend</text>
-        <rect x="175" y="688" width="14" height="9" rx="2" class="c-frontend" stroke-width="1"/>
-        <text x="195" y="696" class="t-muted" font-size="7">User UI</text>
-        <rect x="260" y="688" width="14" height="9" rx="2" class="c-backend" stroke-width="1"/>
-        <text x="280" y="696" class="t-muted" font-size="7">Agent logic</text>
-        <rect x="370" y="688" width="14" height="9" rx="2" class="c-security" stroke-width="1"/>
-        <text x="390" y="696" class="t-muted" font-size="7">Policy</text>
-        <rect x="455" y="688" width="14" height="9" rx="2" class="c-messagebus" stroke-width="1"/>
-        <text x="475" y="696" class="t-muted" font-size="7">Tool action</text>
-        <rect x="565" y="688" width="14" height="9" rx="2" class="c-database" stroke-width="1"/>
-        <text x="585" y="696" class="t-muted" font-size="7">Context / trace</text>
+        <text x="175" y="800" class="t-primary" font-size="10" font-weight="600">Legend</text>
+        <rect x="175" y="812" width="14" height="9" rx="2" class="c-frontend" stroke-width="1"/>
+        <text x="195" y="820" class="t-muted" font-size="7">User UI</text>
+        <rect x="260" y="812" width="14" height="9" rx="2" class="c-backend" stroke-width="1"/>
+        <text x="280" y="820" class="t-muted" font-size="7">Agent logic</text>
+        <rect x="370" y="812" width="14" height="9" rx="2" class="c-security" stroke-width="1"/>
+        <text x="390" y="820" class="t-muted" font-size="7">Policy</text>
+        <rect x="455" y="812" width="14" height="9" rx="2" class="c-messagebus" stroke-width="1"/>
+        <text x="475" y="820" class="t-muted" font-size="7">Tool action</text>
+        <rect x="565" y="812" width="14" height="9" rx="2" class="c-database" stroke-width="1"/>
+        <text x="585" y="820" class="t-muted" font-size="7">Context / trace</text>
       </svg>
     </div>
 

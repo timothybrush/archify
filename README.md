@@ -17,7 +17,7 @@ Archify is an agent skill for Claude, Codex CLI, and opencode. It turns a plain-
 
 ![License](https://img.shields.io/badge/license-MIT-22c55e?style=flat-square)
 ![Agent Skill](https://img.shields.io/badge/Agent-Skill-7C3AED?style=flat-square)
-![Version](https://img.shields.io/badge/version-2.6.0-0891b2?style=flat-square)
+![Version](https://img.shields.io/badge/version-2.7.0-0891b2?style=flat-square)
 
 **Project page:** [tt-a1i.github.io/archify](https://tt-a1i.github.io/archify/)
 
@@ -97,21 +97,23 @@ Open the example here: [`examples/lifecycle-agent-run.html`](examples/lifecycle-
 
 ## What's new
 
-Archify is based on [Cocoon-AI/architecture-diagram-generator](https://github.com/Cocoon-AI/architecture-diagram-generator) v1.0 (dark-only, HTML output). **2.0** rewrote the template around a themeable CSS-variable system and added a client-side export pipeline. **2.1** added copy-to-clipboard + keyboard nav. **2.2** added a print stylesheet + local-font fallback. **2.3** fixed a long-standing upsampling bug and made every raster export genuinely sharp at 4× source resolution (the 1× / 2× / 4× selector introduced in 2.1 was removed at the same time — it only encouraged picking a soft-looking scale). **2.4** upgraded the SVG export to a dual-theme self-contained file — drop the same `.svg` into a GitHub README and it follows the reader's dark/light preference automatically. **2.5** is a hardening release: a batch of verified renderer and validation bug fixes (template slot corruption, cross-lane lifecycle overlap detection, light-theme lane colors in PNG/SVG exports, Safari clipboard copy), LLM-ergonomic validation errors with numeric thresholds and fix suggestions, Mermaid accepted as an input dialect (mapped through `SKILL.md` prompts, not a parser), CJK-aware text measurement plus CJK font fallbacks, and a golden-file test suite with CI.
+Archify is based on [Cocoon-AI/architecture-diagram-generator](https://github.com/Cocoon-AI/architecture-diagram-generator) v1.0 (dark-only, HTML output). **2.0** rewrote the template around a themeable CSS-variable system and added a client-side export pipeline. **2.1** added copy-to-clipboard + keyboard nav. **2.2** added a print stylesheet + local-font fallback. **2.3** fixed the raster upsampling bug and made exports genuinely sharp at up to 4× source resolution. **2.4** upgraded SVG export to a dual-theme self-contained file. **2.5** added renderer-backed workflow / sequence / data-flow / lifecycle modes, Mermaid input guidance, CJK-aware text measurement, golden tests, and CI. **2.6** brought the architecture renderer to schema + layout validation parity. **2.7** hardens workflow diagrams with phase headers, groups, exception lanes, happy-path linting, same-lane orthogonal routing, and a post-render HTML/SVG checker that catches diagonal arrows and legend collisions before delivery.
 
-| Feature | v1.0 | 2.0 | 2.1 | 2.2 | 2.3 | 2.4 | 2.5 |
-|---|---|---|---|---|---|---|---|
-| Dark theme | Yes | Yes | Yes | Yes | Yes | Yes | Yes |
-| Light theme | — | Toggle | Toggle | Toggle | Toggle + <kbd>T</kbd> shortcut | Same | Same |
-| PNG / JPEG / WebP download | manual screenshot | 2× bitmap-upsampled | 1× / 2× / 4× selector (still upsampled) | same | **4× rasterized natively — no blur** | Same | **Light-export lane colors fixed** |
-| SVG download | — | Vector, styles inlined (single theme) | Same | Same | Same | **Dual-theme self-contained** (`@media prefers-color-scheme`) | Same (lane colors fixed) |
-| Copy PNG to clipboard | — | — | Yes | Same | Yes (up to 4×) | Same | **Safari fix** |
-| Keyboard shortcuts | — | — | <kbd>T</kbd> / <kbd>E</kbd> + menu nav | Same | Same | Same | Same |
-| Accessibility | — | — | ARIA + focus-visible | Same | Same | Same | Same (+ menu a11y fixes) |
-| Print stylesheet | — | — | — | Yes | Yes (+ landscape + 2-col cards) | Same | Same |
-| Local-font fallback on export | — | — | — | Yes | Yes | Same | **+ CJK font fallback** |
-| Styling model | Inline `fill` / `stroke` | CSS custom properties + semantic classes | Same | Same | Same | Same | Same |
-| Typed renderers + schema validation | — | — | — | — | — | — | **Yes (with tests & CI)** |
+| Feature | v1.0 | 2.0 | 2.1 | 2.2 | 2.3 | 2.4 | 2.5 | 2.6 | 2.7 |
+|---|---|---|---|---|---|---|---|---|---|
+| Dark theme | Yes | Yes | Yes | Yes | Yes | Yes | Yes | Yes | Yes |
+| Light theme | — | Toggle | Toggle | Toggle | Toggle + <kbd>T</kbd> shortcut | Same | Same | Same | Same |
+| PNG / JPEG / WebP download | manual screenshot | 2× bitmap-upsampled | 1× / 2× / 4× selector (still upsampled) | same | **4× rasterized natively — no blur** | Same | **Light-export lane colors fixed** | Same | Same |
+| SVG download | — | Vector, styles inlined (single theme) | Same | Same | Same | **Dual-theme self-contained** (`@media prefers-color-scheme`) | Same (lane colors fixed) | Same | Same |
+| Copy PNG to clipboard | — | — | Yes | Same | Yes (up to 4×) | Same | **Safari fix** | Same | Same |
+| Keyboard shortcuts | — | — | <kbd>T</kbd> / <kbd>E</kbd> + menu nav | Same | Same | Same | Same | Same | Same |
+| Accessibility | — | — | ARIA + focus-visible | Same | Same | Same | Same (+ menu a11y fixes) | Same | Same |
+| Print stylesheet | — | — | — | Yes | Yes (+ landscape + 2-col cards) | Same | Same | Same | Same |
+| Local-font fallback on export | — | — | — | Yes | Yes | Same | **+ CJK font fallback** | Same | Same |
+| Styling model | Inline `fill` / `stroke` | CSS custom properties + semantic classes | Same | Same | Same | Same | Same | Same | Same |
+| Typed renderers + schema validation | — | — | — | — | — | — | Workflow / sequence / data-flow / lifecycle | **+ architecture** | Same |
+| Workflow structure aids | — | — | — | — | — | — | Lanes + routed edges | Same | **Phases, groups, exception lanes, mainPath lint** |
+| Post-render artifact checker | — | — | — | — | — | — | — | — | **Yes** |
 
 ## Quick start
 
@@ -162,6 +164,14 @@ cd ~/.agents/skills/archify && npm install
 ```
 
 Without the dependency the renderers skip schema validation (layout checks still run).
+
+For renderer-backed diagrams, the skill also runs a post-render artifact check:
+
+```bash
+node scripts/check-render-output.mjs output.html
+```
+
+That final gate inspects the generated HTML/SVG for malformed output, non-finite SVG values, accidental two-point diagonal arrows, and arrows crossing the legend.
 
 **Claude.ai Projects (alternative):**
 Upload [`archify.zip`](archify.zip) to your Project Knowledge.
@@ -323,6 +333,7 @@ Each color has coordinated dark-mode and light-mode variants that switch togethe
 - **Styling:** CSS custom properties on `:root` + `[data-theme="light"]`; SVG elements reference semantic classes (`c-frontend`, `t-muted`, `a-emphasis`, etc.). Toggling `data-theme` on `<html>` re-themes the entire diagram including gradient, grid, arrows, and mask rects.
 - **Export pipeline:** The SVG is cloned, host `<style>` is inlined, and current theme variables are resolved and written into a `:root` rule on the clone. For raster formats the clone's `width`/`height` are set to `4 × viewBox` so the browser rasterizes the vectors at target resolution natively; the canvas is sized to match and the image is drawn at natural size (no bitmap upsampling). `toBlob(mime)` then produces the file. JPEG gets an explicit background fill since it has no alpha. If the target resolution would exceed the browser's canvas limits, the pipeline automatically falls back to 3× or 2× so the export still succeeds.
 - **Self-contained output:** Single HTML file, Google Fonts link + inline SVG + ~19 KB of embedded JS. No build step, no JS framework, no server — the generated HTML itself has zero dependencies (the typed renderers need `npm install` for ajv, see [Install](#1-install-the-skill)).
+- **Output checks:** `scripts/check-render-output.mjs` validates generated HTML before delivery: one SVG, finite SVG values, no accidental two-point diagonal arrows, and no arrow segments crossing the legend.
 - **Browser support:** Any modern browser (Chrome, Safari, Firefox, Edge). Needs `Image` + `canvas.toBlob` with `image/webp` support for WebP export.
 
 ## Attribution
@@ -337,6 +348,8 @@ Archify 2.x contributes:
 - Dual-theme self-contained SVG export (single file follows the host's `prefers-color-scheme`)
 - Keyboard navigation + accessibility semantics
 - Print stylesheet + local-font fallback
+- Renderer-backed architecture, workflow, sequence, data-flow, and lifecycle diagrams with schema validation
+- Post-render artifact checks for final HTML/SVG quality
 - Updated `SKILL.md` to guide Claude toward class-based (themeable) diagrams
 
 Both projects are MIT-licensed.
