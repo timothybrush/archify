@@ -45,7 +45,7 @@
     { "from": "chat", "to": "planner", "label": "plan", "variant": "emphasis", "fromSide": "bottom", "toSide": "top", "route": "drop", "labelSegment": 1 },
     { "from": "planner", "to": "router", "variant": "default" },
     { "from": "router", "to": "approval", "label": "needs approval?", "variant": "security", "fromSide": "bottom", "toSide": "top", "route": "drop", "labelSegment": 0, "labelDx": 34, "labelDy": 18 },
-    { "from": "approval", "to": "tool", "variant": "emphasis", "fromSide": "bottom", "toSide": "top", "route": "drop" },
+    { "from": "approval", "to": "tool", "variant": "emphasis", "fromSide": "left", "toSide": "left", "route": "return-left" },
     { "from": "approval", "to": "blocked", "label": "denied", "variant": "security", "role": "error", "fromSide": "bottom", "toSide": "top", "route": "drop", "labelSegment": 1, "labelDy": 12 },
     { "from": "blocked", "to": "retry", "variant": "dashed", "role": "branch" },
     { "from": "tool", "to": "external", "variant": "default" },

@@ -1,11 +1,12 @@
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { esc, renderDefinitions, textUnits } from '../shared/utils.mjs';
-import { loadDiagram, writeDiagram, svgRootAttrs } from '../shared/cli.mjs';
+import { animateAttr, loadDiagram, writeDiagram, svgRootAttrs } from '../shared/cli.mjs';
 import {
   asArray,
   isFinitePoint,
   rectsOverlap,
+  segmentIntersectsRect,
   anchor,
   defaultFromSide,
   defaultToSide,
@@ -76,6 +77,18 @@ function measureNode(node) {
 }
 
 const nodes = new Map(asArray(workflow.nodes).map((node) => [node.id, measureNode(node)]));
+
+const mainPathSteps = new Map(asArray(workflow.mainPath).map((id, index) => [id, index]));
+const edgeSteps = new Map(asArray(workflow.edges).map((edge, index) => {
+  const fromStep = mainPathSteps.get(edge.from);
+  const toStep = mainPathSteps.get(edge.to);
+  const mainStep = Number.isInteger(fromStep) && toStep === fromStep + 1 ? fromStep : null;
+  return [edge, mainStep ?? asArray(workflow.mainPath).length + index];
+}));
+
+function nodeStep(node) {
+  return mainPathSteps.get(node.id) ?? asArray(workflow.mainPath).length + asArray(workflow.nodes).findIndex((item) => item.id === node.id);
+}
 
 function validateWorkflow() {
   const problems = [];
@@ -215,6 +228,16 @@ function validateWorkflow() {
         const segmentLength = Math.hypot(end[0] - start[0], end[1] - start[1]);
         if (segmentLength < 28) {
           problems.push(`Edge "${edge.from}" -> "${edge.to}" is too short (${Math.round(segmentLength)}px; minimum 28px) — drop its label or route it through a channel.`);
+        }
+      }
+      const segments = [];
+      for (let i = 1; i < routed.points.length; i += 1) {
+        segments.push({ start: routed.points[i - 1], end: routed.points[i] });
+      }
+      for (const node of nodes.values()) {
+        if (node.id === edge.from || node.id === edge.to) continue;
+        if (segments.some((segment) => segmentIntersectsRect(segment, node, 2))) {
+          problems.push(`Edge "${edge.from}" -> "${edge.to}" crosses node "${node.id}" — adjust fromSide/toSide, route it through a channel, or move one node to a clearer lane/column.`);
         }
       }
     }
@@ -379,7 +402,7 @@ function renderNode(node) {
     ? `\n        <text x="${node.cx}" y="${node.y + node.height - 12}" class="${accent}" font-size="7" text-anchor="middle">${esc(node.tag)}</text>`
     : '';
   return `        <rect x="${node.x}" y="${node.y}" width="${node.width}" height="${node.height}" rx="6" class="c-mask"/>
-        <rect x="${node.x}" y="${node.y}" width="${node.width}" height="${node.height}" rx="6" class="${fill}" stroke-width="1.5"/>
+        <rect x="${node.x}" y="${node.y}" width="${node.width}" height="${node.height}" rx="6" class="${fill}"${animateAttr(workflow.meta, 'node', nodeStep(node))} stroke-width="1.5"/>
         <text x="${node.cx}" y="${node.y + 21}" class="t-primary" font-size="11" font-weight="600" text-anchor="middle">${esc(node.label)}</text>
         <text x="${node.cx}" y="${node.y + 38}" class="t-muted" font-size="8" text-anchor="middle">${esc(node.sublabel || '')}</text>${tag}`;
 }
@@ -388,7 +411,7 @@ function renderEdgePath(edge) {
   const [cls, marker] = arrowClassMap[edge.variant || 'default'] || arrowClassMap.default;
   const routed = pathFor(edge);
   const strokeWidth = edge.width || (edge.variant === 'emphasis' ? 1.8 : 1.4);
-  return `        <path d="${routed.d}" class="${cls}" stroke-width="${strokeWidth}" marker-end="url(#${marker})"/>`;
+  return `        <path d="${routed.d}" class="${cls}"${animateAttr(workflow.meta, 'edge', edgeSteps.get(edge))} stroke-width="${strokeWidth}" marker-end="url(#${marker})"/>`;
 }
 
 function renderEdgeLabel(edge) {

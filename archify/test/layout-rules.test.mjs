@@ -169,4 +169,23 @@ test('workflow: same-lane offset auto edge stays orthogonal', () => {
   assert.match(html, /M 236 105 L 260 105 L 260 133 L 284 133/);
 });
 
+test('workflow: edge crossing a non-endpoint node is rejected', () => {
+  const d = {
+    schema_version: 1,
+    diagram_type: 'workflow',
+    meta: { title: 'Crossing edge route' },
+    lanes: [{ id: 'main', label: 'Main lane' }],
+    nodes: [
+      { id: 'left', lane: 'main', col: 0, type: 'backend', label: 'Left', width: 60 },
+      { id: 'middle', lane: 'main', col: 2, type: 'database', label: 'Middle', width: 70 },
+      { id: 'right', lane: 'main', col: 4, type: 'backend', label: 'Right', width: 60 },
+    ],
+    edges: [{ from: 'left', to: 'right', route: 'straight' }],
+  };
+  const { code, stderr } = render('workflow', d);
+  assert.notEqual(code, 0, `expected non-zero exit; stderr:\n${stderr}`);
+  assert.match(stderr, /crosses node "middle"/);
+  assert.match(stderr, /fromSide\/toSide|channel|lane\/column/);
+});
+
 process.on('exit', () => fs.rmSync(tmp, { recursive: true, force: true }));

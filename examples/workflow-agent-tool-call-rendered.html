@@ -455,6 +455,37 @@
     .c-security-group { fill: transparent; stroke: var(--security-stroke); stroke-dasharray: 4,4; }
     .c-region         { fill: rgba(251, 191, 36, 0.05); stroke: var(--cloud-stroke); stroke-dasharray: 8,4; }
     .c-lane           { fill: var(--lane-fill); stroke: var(--lane-stroke); stroke-dasharray: 6,6; }
+
+    /* Optional trace animation, enabled only by meta.animation = "trace".
+       Static diagrams do not carry data-animation and render exactly as before. */
+    svg[data-animation="trace"] [data-animate="edge"] {
+      stroke-dasharray: 10 8;
+      stroke-dashoffset: 54;
+      animation: archify-edge-flow 2.4s linear infinite;
+      animation-delay: calc(var(--step, 0) * 160ms);
+    }
+    svg[data-animation="trace"] [data-animate="node"] {
+      transform-box: fill-box;
+      transform-origin: center;
+      animation: archify-node-pulse 3.6s ease-in-out infinite;
+      animation-delay: calc(var(--step, 0) * 160ms);
+    }
+    @keyframes archify-edge-flow {
+      to { stroke-dashoffset: 0; }
+    }
+    @keyframes archify-node-pulse {
+      0%, 72%, 100% { filter: none; stroke-width: 1.5; }
+      18%, 36% {
+        filter: drop-shadow(0 0 8px var(--arrow-emphasis));
+        stroke-width: 2.4;
+      }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      svg[data-animation="trace"] [data-animate] {
+        animation: none !important;
+        stroke-dashoffset: 0;
+      }
+    }
   </style>
 </head>
 <body>
@@ -568,7 +599,7 @@
         <path d="M 220 145 L 220 166 L 300 166 L 300 209" class="a-emphasis" stroke-width="1.8" marker-end="url(#arrowhead-emphasis)"/>
         <path d="M 346 243 L 384 243" class="a-default" stroke-width="1.4" marker-end="url(#arrowhead)"/>
         <path d="M 430 269 L 430 290 L 430 290 L 430 333" class="a-security" stroke-width="1.4" marker-end="url(#arrowhead-security)"/>
-        <path d="M 430 401 L 430 476 L 500 476 L 500 581" class="a-emphasis" stroke-width="1.8" marker-end="url(#arrowhead-emphasis)"/>
+        <path d="M 384 367 L 356 367 L 356 615 L 454 615" class="a-emphasis" stroke-width="1.8" marker-end="url(#arrowhead-emphasis)"/>
         <path d="M 430 401 L 430 414 L 500 414 L 500 465" class="a-security" stroke-width="1.4" marker-end="url(#arrowhead-security)"/>
         <path d="M 546 491 L 579 491" class="a-dashed" stroke-width="1.4" marker-end="url(#arrowhead-dashed)"/>
         <path d="M 546 615 L 579 615" class="a-default" stroke-width="1.4" marker-end="url(#arrowhead)"/>

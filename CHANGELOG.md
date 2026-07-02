@@ -4,6 +4,10 @@ All notable changes are documented here. Format loosely follows [Keep a Changelo
 
 ## [Unreleased]
 
+### Added
+- **Opt-in trace animation.** Renderer-backed diagrams can set `meta.animation: "trace"` to animate marked arrows and nodes inside the generated HTML/SVG. The default output remains static, and the CSS respects `prefers-reduced-motion`.
+- **Workflow route guard.** Workflow rendering now rejects edges that cross through non-endpoint nodes, so crowded or long return routes fail with an actionable routing hint instead of producing confusing line artifacts.
+
 ## [2.7.0] — 2026-07-03
 
 ### Added

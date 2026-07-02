@@ -19,6 +19,9 @@ Every diagram schema requires `schema_version`, `diagram_type`, `meta` (with
 `cards`, which are optional — and sets `additionalProperties: false` at every
 level, so unknown fields are rejected rather than silently ignored.
 
+Every `meta` object also accepts `animation: "trace"` for opt-in SVG/CSS motion
+in generated HTML. Omit it, or set `"none"`, for the default static output.
+
 ## schema_version policy
 
 `schema_version` is `"const": 1`. The constant pins the IR contract: a file

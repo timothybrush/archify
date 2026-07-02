@@ -177,6 +177,14 @@ node scripts/check-render-output.mjs output.html
 
 这道最终闸门会检查 HTML/SVG 是否结构异常、SVG 是否出现非有限值、是否误生成两点斜线箭头，以及箭头是否穿过图例。
 
+渲染器生成的图也可以按需开启轻量动效，适合 demo 或演示场景：
+
+```json
+{ "meta": { "title": "Release Flow", "animation": "trace" } }
+```
+
+Trace animation 直接运行在生成的 HTML/SVG 里：箭头按顺序流动，节点轻微 pulse；用户开启 `prefers-reduced-motion` 时会自动禁用运动。默认不写 `animation`，输出仍是静态图。
+
 **Claude.ai Projects：**
 把 [`archify.zip`](archify.zip) 上传到 Project Knowledge 就行。
 

@@ -173,6 +173,14 @@ node scripts/check-render-output.mjs output.html
 
 That final gate inspects the generated HTML/SVG for malformed output, non-finite SVG values, accidental two-point diagonal arrows, and arrows crossing the legend.
 
+Renderer-backed diagrams can also opt into lightweight motion for demos:
+
+```json
+{ "meta": { "title": "Release Flow", "animation": "trace" } }
+```
+
+Trace animation runs inside the generated HTML/SVG: arrows flow in order, nodes pulse lightly, and `prefers-reduced-motion` disables movement for users who request it. Omit `animation` for the default static diagram.
+
 **Claude.ai Projects (alternative):**
 Upload [`archify.zip`](archify.zip) to your Project Knowledge.
 
