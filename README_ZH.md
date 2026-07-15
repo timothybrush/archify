@@ -1,3 +1,7 @@
+<p align="center">
+  <a href="./README.md">English</a> · <strong>简体中文</strong>
+</p>
+
 ![Archify 主视觉](docs/assets/archify-readme-hero.png)
 
 # Archify
@@ -22,8 +26,6 @@ Archify 是一个可用于 Claude、Codex CLI 和 opencode 的 agent skill：你
 ![Version](https://img.shields.io/badge/version-2.10.0-0891b2?style=flat-square)
 
 **[在线落地页 → tt-a1i.github.io/archify](https://tt-a1i.github.io/archify/)**
-
-<p align="right"><a href="./README.md">English</a></p>
 
 **60 秒开始：**
 

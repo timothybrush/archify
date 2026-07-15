@@ -1,4 +1,8 @@
 <p align="center">
+  <strong>English</strong> · <a href="./README_ZH.md">简体中文</a>
+</p>
+
+<p align="center">
   <a href="https://trendshift.io/repositories/31352?utm_source=repository-badge&amp;utm_medium=badge&amp;utm_campaign=badge-repository-31352" target="_blank" rel="noopener noreferrer"><img src="https://trendshift.io/api/badge/repositories/31352" alt="Archify on Trendshift" width="250" height="55"/></a>
 </p>
 
@@ -26,8 +30,6 @@ Archify is an agent skill for Claude, Codex CLI, and opencode. It turns a plain-
 ![Version](https://img.shields.io/badge/version-2.10.0-0891b2?style=flat-square)
 
 **Project page:** [tt-a1i.github.io/archify](https://tt-a1i.github.io/archify/)
-
-<p align="right"><a href="./README_ZH.md">中文</a></p>
 
 **Start in 60 seconds:**
 
