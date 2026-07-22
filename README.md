@@ -12,16 +12,11 @@
 
 **Turn plain-English system descriptions into polished architecture, workflow, sequence, data-flow, and lifecycle diagrams — directly in chat.**
 
-Archify is an agent skill for Claude, Codex CLI, and opencode. It produces a self-contained HTML diagram that opens in any modern browser, switches between dark and light themes, supports focused exploration, and exports clean static or motion assets.
+Archify is an agent skill for Claude, Codex CLI, and opencode. Give it a system description or repository; get a polished diagram you can open, explore, present, and share.
 
-- **Five diagram types** — architecture, workflow, sequence, data flow, and lifecycle
-- **Three live visual presets** — author a default, then try `classic`, `signal-flow`, or `blueprint` on the same topology
-- **Explore real topology** — search nodes by label or stable ID, inspect relationships, trace routes, compare roles, and play guided stories
-- **Motion is optional** — output stays static unless `meta.animation: "trace"` is explicitly enabled
-- **Portable exports** — create, copy, or download a 1200×630 Share Card; turn a resolved route into a focused Route Share Card; or export PNG, JPEG, WebP, dual-theme SVG, and trace-enabled WebM
-- **Typed and checked** — JSON IR, bundled schema validation, default semantic safety gates, and opt-in composition profiles
-- **Self-contained output** — one shareable HTML file with no viewer runtime dependency
-- **Built for agent workflows** — install once, then create and refine diagrams through conversation; optionally open only the verified final artifact
+- **Open it and present** — five technical diagram types, three visual presets, dark/light themes, and optional finite motion
+- **Every interaction stays grounded** — search nodes, inspect relationships, trace authored routes, compare roles, and play guided stories without inventing topology
+- **One file, ready to trust and share** — typed JSON IR and deterministic checks produce self-contained HTML plus PNG, SVG, WebM, and 1200×630 share cards
 
 ![License](https://img.shields.io/badge/license-MIT-22c55e?style=flat-square)
 ![Agent Skill](https://img.shields.io/badge/Agent-Skill-7C3AED?style=flat-square)

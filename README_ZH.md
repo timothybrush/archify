@@ -8,16 +8,11 @@
 
 **在对话里，把自然语言描述变成漂亮、可靠的架构图、工作流图、时序图、数据流图和生命周期图。**
 
-Archify 是一个可用于 Claude、Codex CLI 和 opencode 的 Agent Skill。它生成单文件 HTML 技术图：浏览器直接打开，可切换深浅主题、聚焦探索真实拓扑，并导出清晰的静态或动态结果。
+Archify 是适用于 Claude、Codex CLI 和 opencode 的 Agent Skill。给它一段系统描述或一个代码仓库，就能得到可打开、可探索、可演示、可分享的专业技术图。
 
-- **五种图表类型** —— Architecture、Workflow、Sequence、Data Flow、Lifecycle
-- **三套实时视觉预设** —— 先确定作者默认风格，再在同一拓扑上试穿 `classic`、`signal-flow` 或 `blueprint`
-- **探索真实拓扑** —— 按名称或稳定 ID 搜索节点、检查关系、探查路径、对比角色、播放引导故事
-- **动态默认关闭** —— 只有显式设置 `meta.animation: "trace"` 才启用动态
-- **便携导出** —— 一键生成、复制或下载 1200×630 Share Card；把已解析路径导出为聚焦的 Route Share Card；也可导出 PNG / JPEG / WebP / 双主题 SVG / WebM
-- **Typed + Checked** —— Typed JSON IR、内置 Schema 校验、默认语义安全门禁和可选构图档位
-- **结果完全独立** —— 一个 HTML 文件即可查看和分享，不依赖 Viewer 服务
-- **适合 Agent 工作流** —— 安装一次，通过对话持续生成和细调；需要时只打开已经验证的最终成品
+- **打开就是成品** —— 五种技术图、三套视觉预设、深浅主题，以及显式启用的有限动态
+- **每次探索都有依据** —— 搜索节点、检查关系、追踪作者路径、对比角色、播放故事，但不编造拓扑
+- **一个文件即可放心交付** —— Typed JSON IR 和确定性校验生成独立 HTML，并支持 PNG、SVG、WebM 与 1200×630 分享卡片
 
 ![License](https://img.shields.io/badge/license-MIT-22c55e?style=flat-square)
 ![Agent Skill](https://img.shields.io/badge/Agent-Skill-7C3AED?style=flat-square)
