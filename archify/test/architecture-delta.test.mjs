@@ -192,3 +192,24 @@ test('compare failure preserves an existing trusted artifact', () => {
   assert.equal(receipt.diagnostics[0].code, 'delta/relationship-id-required');
   assert.equal(fs.existsSync(path.join(tmp, 'preserved.receipt.json')), false);
 });
+
+test('compare commit preflights both targets before replacing a trusted pair', () => {
+  const caseRoot = fs.mkdtempSync(path.join(tmp, 'pair-target-'));
+  const output = path.join(caseRoot, 'review.html');
+  const receiptPath = path.join(caseRoot, 'review.receipt.json');
+  fs.writeFileSync(output, 'trusted html');
+  fs.mkdirSync(receiptPath);
+
+  const result = run([
+    'compare', 'architecture', baseFixture, headFixture, output,
+    '--receipt', receiptPath, '--json',
+  ]);
+
+  assert.notEqual(result.status, 0);
+  assert.equal(fs.readFileSync(output, 'utf8'), 'trusted html');
+  assert.equal(fs.statSync(receiptPath).isDirectory(), true);
+  const failure = JSON.parse(result.stdout);
+  assert.equal(failure.stage, 'commit');
+  assert.equal(failure.diagnostics[0].code, 'delta/commit-target');
+  assert.equal(failure.diagnostics[0].evidence.targetType, 'directory');
+});

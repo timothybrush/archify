@@ -297,6 +297,82 @@ function compareReceiptPath(outputPath) {
   return extension ? `${outputPath.slice(0, -extension.length)}.receipt.json` : `${outputPath}.receipt.json`;
 }
 
+function compareCommitError(message, code, details = {}) {
+  const error = new Error(message);
+  error.compareStage = 'commit';
+  error.compareCode = code;
+  error.compareDetails = details;
+  return error;
+}
+
+function commitComparePair({ htmlCandidate, receiptCandidate, outputPath, receiptPath, stagingDirectory }) {
+  const targets = [
+    { label: 'HTML artifact', target: outputPath, candidate: htmlCandidate, backup: path.join(stagingDirectory, '.previous-output') },
+    { label: 'receipt', target: receiptPath, candidate: receiptCandidate, backup: path.join(stagingDirectory, '.previous-receipt') },
+  ];
+
+  // Preflight the whole pair before moving either trusted target. This avoids
+  // replacing the HTML and only then discovering that its receipt destination
+  // cannot be committed (for example, because it is a directory).
+  for (const item of targets) {
+    if (!fs.existsSync(item.target)) continue;
+    const existing = fs.lstatSync(item.target);
+    if (!existing.isFile()) {
+      throw compareCommitError(
+        `Could not commit Architecture Delta: existing ${item.label} target is not a regular file.`,
+        'delta/commit-target',
+        {
+          target: path.basename(item.target),
+          targetType: existing.isDirectory() ? 'directory' : 'non-file',
+          supportedFixes: [`choose a regular-file path for the ${item.label}`],
+        },
+      );
+    }
+  }
+
+  const backedUp = [];
+  const committed = [];
+  try {
+    for (const item of targets) {
+      if (!fs.existsSync(item.target)) continue;
+      fs.renameSync(item.target, item.backup);
+      backedUp.push(item);
+    }
+    for (const item of targets) {
+      fs.renameSync(item.candidate, item.target);
+      committed.push(item);
+    }
+  } catch (cause) {
+    const rollbackErrors = [];
+    for (const item of [...committed].reverse()) {
+      try {
+        fs.rmSync(item.target, { force: true });
+      } catch (error) {
+        rollbackErrors.push(`${item.label}: remove failed (${error.message})`);
+      }
+    }
+    for (const item of [...backedUp].reverse()) {
+      try {
+        if (fs.existsSync(item.target)) fs.rmSync(item.target, { force: true });
+        fs.renameSync(item.backup, item.target);
+      } catch (error) {
+        rollbackErrors.push(`${item.label}: restore failed (${error.message})`);
+      }
+    }
+    throw compareCommitError(
+      rollbackErrors.length
+        ? 'Architecture Delta pair commit failed and its previous files could not be fully restored.'
+        : 'Architecture Delta pair commit failed; the previous files were restored.',
+      rollbackErrors.length ? 'delta/commit-rollback-failed' : 'delta/commit-failed',
+      {
+        reason: cause.message,
+        ...(rollbackErrors.length ? { rollbackErrors } : {}),
+        supportedFixes: ['check that both output paths are writable regular files, then retry'],
+      },
+    );
+  }
+}
+
 function renderValidatedArchitecture(inputPath, outputPath, quality, repoRoot) {
   const render = runNode([rendererPath('architecture'), inputPath, outputPath], {
     stdio: 'pipe',
@@ -500,8 +576,7 @@ async function commandCompare(args) {
     };
     fs.writeFileSync(receiptCandidate, `${JSON.stringify(finalReceipt, null, 2)}\n`);
 
-    fs.renameSync(htmlCandidate, outputPath);
-    fs.renameSync(receiptCandidate, receiptPath);
+    commitComparePair({ htmlCandidate, receiptCandidate, outputPath, receiptPath, stagingDirectory });
     if (options.json) console.log(JSON.stringify(finalReceipt, null, 2));
     else {
       console.log(`compared architecture ${outputPath}`);
@@ -511,6 +586,14 @@ async function commandCompare(args) {
   } catch (error) {
     if (error instanceof ArchitectureDeltaError) {
       reportCompareFailure({ json: options.json, stage: 'artifact', error: error.message, code: error.code, details: error.details });
+    } else if (error.compareStage === 'commit') {
+      reportCompareFailure({
+        json: options.json,
+        stage: error.compareStage,
+        error: error.message,
+        code: error.compareCode,
+        details: error.compareDetails,
+      });
     } else {
       reportCompareFailure({ json: options.json, stage: 'internal', error: 'Architecture compare failed before commit.', code: 'delta/internal', details: { reason: error.message } });
     }
