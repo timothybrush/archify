@@ -234,7 +234,7 @@ Omit `animation` for a truly static diagram. `classic` remains default; `editori
 | Open the live overview radar | <kbd>M</kbd> or `MAP` |
 | Play a guided story / change chapter | <kbd>P</kbd> / <kbd>[</kbd> <kbd>]</kbd> |
 | Enter Presentation Stage | <kbd>F</kbd> |
-| Cycle visual style / toggle theme / open Export | <kbd>S</kbd> / <kbd>T</kbd> / <kbd>E</kbd> |
+| Choose visual style (`S` cycles) / toggle theme / open Export | <kbd>S</kbd> / <kbd>T</kbd> / <kbd>E</kbd> |
 | Zoom or reset | <kbd>+</kbd> / <kbd>-</kbd> / <kbd>0</kbd> |
 
 Stable links can restore `#focus=<id>`, `#focus=<id>&reach=upstream|downstream`, `#relation=<id>`, `#route=<source>~<target>`, `#lens=<kind>~<kind>`, and `#view=<view-id>`. Reader-driven motion is finite, respects `prefers-reduced-motion`, and never enters canonical exports.

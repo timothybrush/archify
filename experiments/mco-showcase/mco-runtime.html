@@ -271,6 +271,83 @@
       --toolbar-menu-bg: #f9fdff;
     }
 
+    /* ==========================================================
+       EDITORIAL — a warm, publication-minded preset for design
+       reviews, launch notes, and documentation. The diagram keeps
+       the same semantic palette and exact geometry, but trades
+       software chrome for paper, ink, ruled structure, and one
+       restrained vermilion accent.
+       ========================================================== */
+    [data-preset="editorial"][data-theme="dark"] {
+      --bg: #181611;
+      --grid: #39342a;
+      --panel: rgba(35, 31, 24, 0.96);
+      --panel-border: #625a4a;
+      --lane-fill: rgba(52, 46, 35, 0.46);
+      --lane-stroke: #726957;
+      --text: #f4eddf;
+      --text-muted: #b9ae9b;
+      --text-dim: #776e60;
+      --text-faint: #9d917e;
+      --mask: #231f18;
+      --frontend-fill: rgba(43, 133, 142, 0.16);
+      --frontend-stroke: #7fc6c7;
+      --backend-fill: rgba(63, 132, 92, 0.16);
+      --backend-stroke: #8fc29e;
+      --database-fill: rgba(117, 91, 141, 0.17);
+      --database-stroke: #c0a4d0;
+      --cloud-fill: rgba(170, 119, 49, 0.16);
+      --cloud-stroke: #d8ad68;
+      --security-fill: rgba(157, 69, 65, 0.17);
+      --security-stroke: #df9085;
+      --messagebus-fill: rgba(174, 79, 42, 0.16);
+      --messagebus-stroke: #df946f;
+      --external-fill: rgba(126, 115, 96, 0.18);
+      --external-stroke: #b8ad99;
+      --arrow: #948978;
+      --arrow-emphasis: #dd6b3d;
+      --toolbar-bg: rgba(35, 31, 24, 0.92);
+      --toolbar-border: #625a4a;
+      --toolbar-text: #eee5d5;
+      --toolbar-hover: #302a20;
+      --toolbar-menu-bg: #231f18;
+    }
+
+    [data-preset="editorial"][data-theme="light"] {
+      --bg: #f2eee5;
+      --grid: #d8d0c2;
+      --panel: rgba(251, 248, 241, 0.97);
+      --panel-border: #c4b9a6;
+      --lane-fill: rgba(229, 221, 207, 0.42);
+      --lane-stroke: #b8aa94;
+      --text: #242018;
+      --text-muted: #6f6658;
+      --text-dim: #a09788;
+      --text-faint: #817767;
+      --mask: #fbf8f1;
+      --frontend-fill: rgba(31, 117, 126, 0.09);
+      --frontend-stroke: #287e84;
+      --backend-fill: rgba(42, 119, 75, 0.09);
+      --backend-stroke: #397b53;
+      --database-fill: rgba(105, 75, 130, 0.09);
+      --database-stroke: #765d86;
+      --cloud-fill: rgba(157, 103, 31, 0.1);
+      --cloud-stroke: #9a671f;
+      --security-fill: rgba(153, 58, 52, 0.09);
+      --security-stroke: #9e463f;
+      --messagebus-fill: rgba(182, 70, 27, 0.09);
+      --messagebus-stroke: #ad4b25;
+      --external-fill: rgba(101, 91, 75, 0.09);
+      --external-stroke: #746b5e;
+      --arrow: #8a806f;
+      --arrow-emphasis: #bb4c23;
+      --toolbar-bg: rgba(251, 248, 241, 0.94);
+      --toolbar-border: #c4b9a6;
+      --toolbar-text: #40392f;
+      --toolbar-hover: #fffdf8;
+      --toolbar-menu-bg: #fbf8f1;
+    }
+
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
     body {
@@ -299,6 +376,12 @@
         linear-gradient(90deg, var(--grid) 1px, transparent 1px);
       background-size: 32px 32px;
       background-position: -1px -1px;
+      background-attachment: fixed;
+    }
+    html[data-preset="editorial"] body {
+      background-image:
+        linear-gradient(90deg, transparent 0, transparent 5.4rem, color-mix(in srgb, var(--security-stroke) 18%, transparent) 5.4rem, color-mix(in srgb, var(--security-stroke) 18%, transparent) calc(5.4rem + 1px), transparent calc(5.4rem + 1px)),
+        repeating-linear-gradient(0deg, transparent 0, transparent 31px, color-mix(in srgb, var(--grid) 36%, transparent) 31px, color-mix(in srgb, var(--grid) 36%, transparent) 32px);
       background-attachment: fixed;
     }
 
@@ -368,6 +451,20 @@
         var(--toolbar-menu-bg);
       box-shadow: 0 10px 28px rgba(0, 0, 0, 0.2);
       backdrop-filter: none;
+    }
+    html[data-preset="editorial"] .share-chapter-cue {
+      border-color: var(--panel-border);
+      background:
+        linear-gradient(90deg, color-mix(in srgb, var(--security-fill) 58%, transparent), transparent 42%),
+        var(--toolbar-menu-bg);
+      box-shadow: 0 10px 30px color-mix(in srgb, #000 18%, transparent);
+      backdrop-filter: none;
+    }
+    html[data-preset="editorial"] .share-chapter-state { color: var(--arrow-emphasis); }
+    html[data-preset="editorial"] .share-chapter-state::before {
+      border-radius: 0;
+      box-shadow: none;
+      transform: rotate(45deg) scale(0.8);
     }
     .share-chapter-index {
       display: grid;
@@ -508,7 +605,8 @@
     .header { margin-bottom: 2rem; padding-right: 29.5rem; }
 
     html[data-preset="signal-flow"] .header,
-    html[data-preset="blueprint"] .header { padding-right: 29.5rem; }
+    html[data-preset="blueprint"] .header,
+    html[data-preset="editorial"] .header { padding-right: 29.5rem; }
 
     .header-row {
       display: flex;
@@ -581,6 +679,36 @@
       white-space: nowrap;
     }
 
+    html[data-preset="editorial"] h1,
+    html[data-preset="editorial"] .card h3 {
+      font-family: Georgia, 'Times New Roman', 'Songti SC', STSong, serif;
+      letter-spacing: -0.02em;
+    }
+    html[data-preset="editorial"] h1 { font-size: 1.72rem; font-weight: 600; }
+    html[data-preset="editorial"] .pulse-dot {
+      width: 9px;
+      height: 9px;
+      border: 1px solid var(--arrow-emphasis);
+      border-radius: 0;
+      background: var(--arrow-emphasis);
+      box-shadow: 0 0 0 3px color-mix(in srgb, var(--arrow-emphasis) 14%, transparent);
+      transform: rotate(45deg);
+      animation: none;
+    }
+    html[data-preset="editorial"] .header-row::after {
+      content: "EDITORIAL / FIELD NOTE";
+      margin-left: auto;
+      padding: 0.32rem 0 0.24rem;
+      border-bottom: 2px solid var(--arrow-emphasis);
+      color: var(--arrow-emphasis);
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: 0.625rem;
+      font-style: italic;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      white-space: nowrap;
+    }
+
     .diagram-container {
       background: var(--panel);
       border-radius: 1rem;
@@ -625,6 +753,35 @@
         linear-gradient(var(--frontend-stroke), var(--frontend-stroke)) right bottom / 1px 1.35rem no-repeat;
       opacity: 0.58;
     }
+    html[data-preset="editorial"] .diagram-container {
+      overflow: hidden;
+      border-color: var(--panel-border);
+      border-radius: 0.38rem;
+      background:
+        linear-gradient(90deg, color-mix(in srgb, var(--security-fill) 58%, transparent), transparent 12%),
+        var(--panel);
+      box-shadow:
+        0 1px 0 color-mix(in srgb, var(--text) 6%, transparent),
+        0 18px 48px color-mix(in srgb, #000 19%, transparent);
+    }
+    html[data-preset="editorial"] .diagram-container::after {
+      position: absolute;
+      z-index: 10;
+      top: 0.72rem;
+      right: 1.25rem;
+      padding: 0.2rem 0.52rem;
+      border: 1px solid var(--panel-border);
+      background: var(--panel);
+      color: var(--arrow-emphasis);
+      content: "ARCHIFY / PLATE 04";
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: 0.52rem;
+      font-style: italic;
+      font-weight: 600;
+      letter-spacing: 0.09em;
+      pointer-events: none;
+    }
+    html[data-embed="true"][data-preset="editorial"] .diagram-container::after { display: none; }
     html[data-motion-capable="true"][data-preset="signal-flow"][data-ambient-motion="running"] .diagram-container::before {
       content: "";
       position: absolute;
@@ -1354,10 +1511,25 @@
     .relationship-lens-actions {
       display: flex;
       flex-direction: column;
-      align-items: stretch;
+      align-items: flex-end;
       gap: 0.18rem;
     }
     .relationship-lens-actions button { white-space: nowrap; }
+    .relationship-lens-actions #btn-focus-clear {
+      display: grid;
+      width: 1.75rem;
+      height: 1.75rem;
+      padding: 0;
+      place-items: center;
+      color: var(--text-muted);
+      font-size: 1rem;
+      line-height: 1;
+    }
+    .relationship-lens-actions #btn-focus-clear:hover,
+    .relationship-lens-actions #btn-focus-clear:focus-visible {
+      background: var(--toolbar-hover);
+      color: var(--text);
+    }
     .relationship-lens-actions #btn-focus-copy { color: var(--frontend-stroke); }
     .relationship-lens-actions #btn-focus-relations { display: none; }
     .relationship-lens-eyebrow {
@@ -2540,6 +2712,22 @@
       border-top: 2px solid var(--frontend-stroke);
     }
 
+    html[data-preset="editorial"] .card {
+      position: relative;
+      border-radius: 0.28rem;
+      background: var(--panel);
+      box-shadow: 0 10px 28px color-mix(in srgb, #000 10%, transparent);
+    }
+    html[data-preset="editorial"] .card::before {
+      position: absolute;
+      top: -1px;
+      left: 1.25rem;
+      width: 3.25rem;
+      border-top: 3px solid var(--arrow-emphasis);
+      content: "";
+    }
+    html[data-preset="editorial"] .card-dot { border-radius: 0; transform: rotate(45deg) scale(0.78); }
+
     .card-header {
       display: flex;
       align-items: center;
@@ -2719,6 +2907,7 @@
     .toolbar #btn-motion[hidden] { display: none !important; }
     .toolbar #btn-motion { min-width: 4.4rem; }
     .toolbar #btn-motion:disabled { cursor: default; opacity: 0.58; }
+    .toolbar .preset-wrap { position: relative; }
     .toolbar #btn-preset { min-width: 5.4rem; }
     .preset-control-mark {
       width: 0.58rem;
@@ -2738,6 +2927,172 @@
       background: transparent;
       box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--frontend-stroke) 32%, transparent);
       transform: rotate(45deg) scale(0.84);
+    }
+    #btn-preset[data-preset-option="editorial"] .preset-control-mark {
+      border-color: var(--arrow-emphasis);
+      border-radius: 0;
+      background: var(--arrow-emphasis);
+      box-shadow: 0 0 0 2px color-mix(in srgb, var(--arrow-emphasis) 14%, transparent);
+      transform: rotate(45deg) scale(0.72);
+    }
+    .toolbar .preset-menu {
+      position: absolute;
+      top: calc(100% + 0.375rem);
+      right: 0;
+      display: none;
+      width: 16.5rem;
+      padding: 0.4rem;
+      border: 1px solid var(--toolbar-border);
+      border-radius: 0.5rem;
+      background: var(--toolbar-menu-bg);
+      box-shadow: 0 18px 48px rgba(0, 0, 0, 0.3);
+    }
+    .toolbar .preset-menu.open { display: block; }
+    .preset-menu-heading {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 1rem;
+      padding: 0.42rem 0.6rem 0.55rem;
+      color: var(--text-faint);
+      font-size: 0.56rem;
+      letter-spacing: 0.13em;
+      text-transform: uppercase;
+    }
+    .preset-menu-heading span:last-child {
+      font-size: 0.52rem;
+      letter-spacing: 0.04em;
+      text-transform: none;
+    }
+    .toolbar .preset-option {
+      display: grid;
+      grid-template-columns: 2rem minmax(0, 1fr) 1rem;
+      align-items: center;
+      gap: 0.68rem;
+      width: 100%;
+      min-height: 3.35rem;
+      padding: 0.5rem 0.62rem;
+      border: 0;
+      border-radius: 0.34rem;
+      background: transparent;
+      text-align: left;
+    }
+    .toolbar .preset-option:hover,
+    .toolbar .preset-option:focus-visible { background: var(--toolbar-hover); }
+    .preset-option-swatch {
+      position: relative;
+      width: 2rem;
+      height: 1.55rem;
+      overflow: hidden;
+      border: 1px solid #64748b;
+      border-radius: 0.24rem;
+      background: #0f172a;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.04);
+    }
+    .preset-option-swatch::before,
+    .preset-option-swatch::after { position: absolute; content: ""; }
+    .preset-option-swatch.classic::before {
+      top: 0.42rem;
+      right: 0.35rem;
+      bottom: 0.42rem;
+      left: 0.35rem;
+      border: 1px solid #22d3ee;
+      border-radius: 0.16rem;
+      background: rgba(34, 211, 238, 0.14);
+    }
+    .preset-option-swatch.signal-flow {
+      border-color: #29415f;
+      background: linear-gradient(135deg, #07101e 10%, #10243c 100%);
+    }
+    .preset-option-swatch.signal-flow::before {
+      top: 50%;
+      right: 0.2rem;
+      left: 0.2rem;
+      height: 1px;
+      background: linear-gradient(90deg, #67e8f9, #c4b5fd);
+      box-shadow: 0 0 8px #67e8f9;
+    }
+    .preset-option-swatch.signal-flow::after {
+      top: calc(50% - 0.13rem);
+      right: 0.28rem;
+      width: 0.26rem;
+      height: 0.26rem;
+      border-radius: 50%;
+      background: #67e8f9;
+      box-shadow: 0 0 7px #67e8f9;
+    }
+    .preset-option-swatch.blueprint {
+      border-color: #34799a;
+      border-radius: 0.08rem;
+      background-color: #0a2031;
+      background-image:
+        linear-gradient(rgba(102, 217, 239, 0.18) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(102, 217, 239, 0.18) 1px, transparent 1px);
+      background-size: 0.42rem 0.42rem;
+    }
+    .preset-option-swatch.blueprint::before {
+      top: 0.34rem;
+      right: 0.38rem;
+      bottom: 0.34rem;
+      left: 0.38rem;
+      border: 1px solid #66d9ef;
+    }
+    .preset-option-swatch.editorial {
+      border-color: #b8aa94;
+      border-radius: 0.08rem;
+      background: repeating-linear-gradient(0deg, #f2eee5 0 0.34rem, #d8d0c2 0.36rem, #f2eee5 0.38rem);
+    }
+    .preset-option-swatch.editorial::before {
+      top: 0;
+      bottom: 0;
+      left: 0.42rem;
+      width: 1px;
+      background: #c9502d;
+      opacity: 0.72;
+    }
+    .preset-option-swatch.editorial::after {
+      top: 0.52rem;
+      right: 0.45rem;
+      width: 0.38rem;
+      height: 0.38rem;
+      background: #c9502d;
+      transform: rotate(45deg);
+    }
+    .preset-option-copy { min-width: 0; }
+    .preset-option-copy strong,
+    .preset-option-copy small { display: block; }
+    .preset-option-copy strong {
+      color: var(--toolbar-text);
+      font-size: 0.72rem;
+      font-weight: 600;
+    }
+    .preset-option-copy small {
+      margin-top: 0.16rem;
+      overflow: hidden;
+      color: var(--text-faint);
+      font-size: 0.57rem;
+      font-weight: 400;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+    .preset-option-check {
+      color: var(--frontend-stroke);
+      font-size: 0.78rem;
+      opacity: 0;
+    }
+    .preset-option[aria-checked="true"] .preset-option-check { opacity: 1; }
+    html[data-preset="editorial"] .toolbar button,
+    html[data-preset="editorial"] .preset-menu,
+    html[data-preset="editorial"] .export-menu,
+    html[data-preset="editorial"] .overview-map,
+    html[data-preset="editorial"] .semantic-lens,
+    html[data-preset="editorial"] .route-probe,
+    html[data-preset="editorial"] .focus-chip,
+    html[data-preset="editorial"] .diagram-guide,
+    html[data-preset="editorial"] .node-finder,
+    html[data-preset="editorial"] .guided-views,
+    html[data-preset="editorial"] .share-chapter-cue {
+      border-radius: 0.3rem;
     }
     .motion-control-dot {
       width: 0.46rem;
@@ -2816,25 +3171,38 @@
 
     @media (max-width: 720px) {
       body { padding: 1rem; }
+      .toolbar .preset-menu {
+        position: fixed;
+        top: 4.5rem;
+        right: 1rem;
+        left: 1rem;
+        width: auto;
+      }
       .toolbar {
-        position: static;
+        position: relative;
         justify-content: flex-end;
         margin-bottom: 1rem;
       }
       .header { margin-bottom: 1.25rem; padding-right: 0; }
       html[data-preset="signal-flow"] .header,
-      html[data-preset="blueprint"] .header { padding-right: 0; }
+      html[data-preset="blueprint"] .header,
+      html[data-preset="editorial"] .header { padding-right: 0; }
       .header-row {
         gap: 0.75rem;
         align-items: flex-start;
       }
       html[data-preset="signal-flow"] .header-row,
-      html[data-preset="blueprint"] .header-row { flex-wrap: wrap; }
+      html[data-preset="blueprint"] .header-row,
+      html[data-preset="editorial"] .header-row { flex-wrap: wrap; }
       html[data-preset="signal-flow"] .header-row::after {
         margin-left: 0;
         order: 3;
       }
       html[data-preset="blueprint"] .header-row::after {
+        margin-left: 0;
+        order: 3;
+      }
+      html[data-preset="editorial"] .header-row::after {
         margin-left: 0;
         order: 3;
       }
@@ -3535,6 +3903,11 @@
       stroke-linecap: square;
       filter: none;
     }
+    svg[data-preset="editorial"] .relationship-flow-pulse {
+      stroke: var(--arrow-emphasis);
+      stroke-width: 2.75;
+      filter: none;
+    }
     .semantic-flow-token {
       color: var(--frontend-stroke);
       opacity: 0;
@@ -3577,6 +3950,7 @@
       filter: drop-shadow(0 0 5px currentColor);
     }
     svg[data-preset="blueprint"] .semantic-flow-token { filter: none; }
+    svg[data-preset="editorial"] .semantic-flow-token { filter: none; }
     html[data-embed="true"] .relationship-pulse-overlay { display: none; }
 
     /* Intent Trace is a temporary, pre-click exploration layer. Related
@@ -3617,6 +3991,8 @@
       filter: none;
       stroke-linecap: square;
     }
+    svg[data-preset="editorial"] [data-intent-trace-selected],
+    svg[data-preset="editorial"] .intent-trace-flow { filter: none; }
     .intent-trace-status {
       position: absolute;
       width: 1px;
@@ -3699,6 +4075,25 @@
     svg[data-preset="blueprint"] .route-journey-flow {
       filter: none;
       stroke-linecap: square;
+    }
+    svg[data-preset="editorial"] [data-route-start],
+    svg[data-preset="editorial"] [data-route-end],
+    svg[data-preset="editorial"] [data-route-step],
+    svg[data-preset="editorial"] .route-probe-flow,
+    svg[data-preset="editorial"] .route-journey-flow { filter: none; }
+
+    svg[data-preset="editorial"] .c-grid {
+      stroke-dasharray: 1 4;
+      opacity: 0.48;
+    }
+    svg[data-preset="editorial"] .c-region {
+      fill: color-mix(in srgb, var(--cloud-fill) 48%, transparent);
+      stroke-dasharray: 9 4;
+    }
+    svg[data-preset="editorial"] [data-node-id]:hover,
+    svg[data-preset="editorial"] [data-node-id]:focus-visible,
+    svg[data-preset="editorial"][data-focus-active] [data-focus-selected] {
+      filter: drop-shadow(0 2px 2px color-mix(in srgb, var(--text) 18%, transparent));
     }
 
     svg[data-preset="blueprint"] .c-grid {
@@ -3785,6 +4180,10 @@
       filter: none;
       animation: none;
     }
+    svg[data-preset="editorial"] .story-trail-flow { filter: none; }
+    svg[data-preset="editorial"][data-story-beat] [data-story-step][data-story-beat-state="active"] {
+      filter: drop-shadow(0 2px 2px color-mix(in srgb, var(--text) 16%, transparent));
+    }
 
     /* Chapter Delta Preview is a static, pre-commit comparison between two
        chapter focus sets. Symbols in the rail carry the meaning without color;
@@ -3846,6 +4245,14 @@
       animation-name: archify-blueprint-node-pulse;
       animation-duration: 3.8s;
     }
+    svg[data-preset="editorial"][data-animation="trace"] [data-animate="edge"] {
+      filter: none;
+      animation-duration: 2.2s;
+    }
+    svg[data-preset="editorial"][data-animation="trace"] [data-animate="node"] {
+      animation-name: archify-editorial-node-pulse;
+      animation-duration: 3.5s;
+    }
     /* Embedded proofs are static until a named Story Trail chapter is played.
        This keeps proof grids calm and ensures ?play=1 stops all viewer motion
        after one 3.2 second chapter instead of leaving ambient trace loops on. */
@@ -3870,6 +4277,10 @@
     @keyframes archify-blueprint-node-pulse {
       0%, 72%, 100% { opacity: 1; filter: none; }
       18%, 36% { opacity: 0.72; filter: drop-shadow(0 0 2px var(--frontend-stroke)); }
+    }
+    @keyframes archify-editorial-node-pulse {
+      0%, 72%, 100% { opacity: 1; filter: none; }
+      18%, 36% { opacity: 0.78; filter: drop-shadow(0 2px 2px color-mix(in srgb, var(--text) 18%, transparent)); }
     }
     @keyframes archify-signal-scan {
       0%, 18% { opacity: 1; transform: translateX(-70%); }
@@ -4003,12 +4414,42 @@
       <span id="theme-icon" aria-hidden="true">&#9790;</span>
       <span id="theme-label">Dark</span>
     </button>
-    <button id="btn-preset" type="button"
-            title="Cycle visual style (S)"
-            aria-label="Cycle visual style">
-      <span class="preset-control-mark" aria-hidden="true"></span>
-      <span id="preset-label">Style</span>
-    </button>
+    <div class="preset-wrap">
+      <button id="btn-preset" type="button"
+              title="Choose visual style (S cycles)"
+              aria-label="Choose visual style"
+              aria-haspopup="menu"
+              aria-expanded="false"
+              aria-controls="preset-menu"
+              aria-keyshortcuts="S">
+        <span class="preset-control-mark" aria-hidden="true"></span>
+        <span id="preset-label">Style</span>
+        <span aria-hidden="true">&#9662;</span>
+      </button>
+      <div class="preset-menu" id="preset-menu" role="menu" aria-label="Visual style">
+        <div class="preset-menu-heading" role="presentation"><span>Visual identity</span><span>S cycles</span></div>
+        <button class="preset-option" data-preset-value="classic" type="button" role="menuitemradio" aria-checked="false" tabindex="-1">
+          <span class="preset-option-swatch classic" aria-hidden="true"></span>
+          <span class="preset-option-copy"><strong>Classic</strong><small>Stable technical default</small></span>
+          <span class="preset-option-check" aria-hidden="true">&#10003;</span>
+        </button>
+        <button class="preset-option" data-preset-value="signal-flow" type="button" role="menuitemradio" aria-checked="false" tabindex="-1">
+          <span class="preset-option-swatch signal-flow" aria-hidden="true"></span>
+          <span class="preset-option-copy"><strong>Signal Flow</strong><small>Motion-forward presentation</small></span>
+          <span class="preset-option-check" aria-hidden="true">&#10003;</span>
+        </button>
+        <button class="preset-option" data-preset-value="blueprint" type="button" role="menuitemradio" aria-checked="false" tabindex="-1">
+          <span class="preset-option-swatch blueprint" aria-hidden="true"></span>
+          <span class="preset-option-copy"><strong>Blueprint</strong><small>Engineering review</small></span>
+          <span class="preset-option-check" aria-hidden="true">&#10003;</span>
+        </button>
+        <button class="preset-option" data-preset-value="editorial" type="button" role="menuitemradio" aria-checked="false" tabindex="-1">
+          <span class="preset-option-swatch editorial" aria-hidden="true"></span>
+          <span class="preset-option-copy"><strong>Editorial</strong><small>Publication and launch notes</small></span>
+          <span class="preset-option-check" aria-hidden="true">&#10003;</span>
+        </button>
+      </div>
+    </div>
     <button id="btn-motion" type="button" hidden
             title="Pause motion"
             aria-label="Pause motion"
@@ -4477,9 +4918,9 @@
             </div>
           </div>
           <div class="relationship-lens-actions">
+            <button id="btn-focus-clear" type="button" aria-label="Close semantic passport" title="Close">&#215;</button>
             <button id="btn-focus-copy" type="button" aria-label="Copy link to focused node">Copy link</button>
             <button id="btn-focus-relations" type="button" aria-label="Show connected relationships" aria-expanded="false" aria-controls="relationship-lens-list">Relations</button>
-            <button id="btn-focus-clear" type="button" aria-label="Clear focused node">Clear</button>
           </div>
         </div>
         <div class="relationship-lens-list" id="relationship-lens-list" aria-label="Connected relationships"></div>
@@ -4620,18 +5061,22 @@
     }
 
     /* ============================================================
-       Visual style try-on — one topology, three bundled presets.
+       Visual style try-on — one topology, four bundled presets.
        The reader's choice is intentionally session-only: it updates the
        live page and canonical SVG together, but never rewrites the source,
        URL, or a later diagram's authored default.
        ============================================================ */
     Archify.preset = (function () {
-      var PRESETS = ['classic', 'signal-flow', 'blueprint'];
-      var LABELS = { classic: 'Classic', 'signal-flow': 'Flow', blueprint: 'Blueprint' };
+      var PRESETS = ['classic', 'signal-flow', 'blueprint', 'editorial'];
+      var LABELS = { classic: 'Classic', 'signal-flow': 'Flow', blueprint: 'Blueprint', editorial: 'Editorial' };
       var html = document.documentElement;
       var svg = document.querySelector('.diagram-container svg');
       var btn = document.getElementById('btn-preset');
       var label = document.getElementById('preset-label');
+      var menu = document.getElementById('preset-menu');
+      var options = function () {
+        return Array.prototype.slice.call(menu.querySelectorAll('[data-preset-value]'));
+      };
       var authored = PRESETS.indexOf(html.getAttribute('data-preset')) >= 0
         ? html.getAttribute('data-preset')
         : 'classic';
@@ -4650,16 +5095,80 @@
         svg.setAttribute('data-preset', preset);
         btn.setAttribute('data-preset-option', preset);
         label.textContent = LABELS[preset];
-        var next = nextAfter(preset);
-        btn.setAttribute('aria-label', 'Visual style: ' + LABELS[preset] + '. Activate for ' + LABELS[next]);
-        btn.title = 'Cycle visual style (S)';
+        btn.setAttribute('aria-label', 'Visual style: ' + LABELS[preset] + '. Choose visual style');
+        btn.title = 'Choose visual style (S cycles)';
+        options().forEach(function (option) {
+          var selected = option.getAttribute('data-preset-value') === preset;
+          option.setAttribute('aria-checked', String(selected));
+        });
         return true;
       }
       function cycle() { return apply(nextAfter(current())); }
 
+      function isOpen() { return menu.classList.contains('open'); }
+      function open(focusLast) {
+        if (html.getAttribute('data-embed') === 'true') return false;
+        if (Archify.exportMenu && Archify.exportMenu.isOpen()) Archify.exportMenu.close(false);
+        menu.classList.add('open');
+        btn.setAttribute('aria-expanded', 'true');
+        var available = options();
+        var selected = available.find(function (option) { return option.getAttribute('aria-checked') === 'true'; });
+        var target = focusLast ? available[available.length - 1] : (selected || available[0]);
+        if (target) target.focus();
+        return true;
+      }
+      function close(focusTrigger) {
+        menu.classList.remove('open');
+        btn.setAttribute('aria-expanded', 'false');
+        if (focusTrigger) btn.focus();
+        return false;
+      }
+
       apply(authored);
-      btn.addEventListener('click', cycle);
-      return { cycle: cycle, apply: apply, current: current, authored: authored };
+      btn.addEventListener('click', function (e) {
+        e.stopPropagation();
+        if (isOpen()) close(false);
+        else open(false);
+      });
+      btn.addEventListener('keydown', function (e) {
+        if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+          e.preventDefault();
+          if (!isOpen()) open(e.key === 'ArrowUp');
+        }
+      });
+      document.addEventListener('click', function (e) {
+        if (!menu.contains(e.target) && e.target !== btn) close(false);
+      });
+      menu.addEventListener('click', function (e) {
+        var option = e.target.closest('[data-preset-value]');
+        if (!option || !menu.contains(option)) return;
+        if (apply(option.getAttribute('data-preset-value'))) close(true);
+      });
+      menu.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape') { e.preventDefault(); close(true); return; }
+        if (e.key === 'Tab') { close(false); return; }
+        var available = options();
+        var active = available.indexOf(document.activeElement);
+        switch (e.key) {
+          case 'ArrowDown':
+            e.preventDefault();
+            if (available.length) available[(active + 1 + available.length) % available.length].focus();
+            break;
+          case 'ArrowUp':
+            e.preventDefault();
+            if (available.length) available[(active - 1 + available.length) % available.length].focus();
+            break;
+          case 'Home':
+            e.preventDefault();
+            if (available[0]) available[0].focus();
+            break;
+          case 'End':
+            e.preventDefault();
+            if (available.length) available[available.length - 1].focus();
+            break;
+        }
+      });
+      return { cycle: cycle, apply: apply, current: current, authored: authored, open: open, close: close, isOpen: isOpen };
     })();
 
     /* ============================================================
@@ -5851,6 +6360,7 @@
       }
 
       function open(focusLast) {
+        if (Archify.preset && Archify.preset.isOpen()) Archify.preset.close(false);
         if (Archify.semanticLens && typeof Archify.semanticLens.clearPreview === 'function') Archify.semanticLens.clearPreview();
         if (Archify.semanticLens && Archify.semanticLens.isOpen()) Archify.semanticLens.close({ restoreFocus: false });
         syncRouteShareItem();
@@ -7511,6 +8021,9 @@
       }
       function clear(options) {
         options = options || {};
+        var restoreNode = options.restoreFocus === true && activeIds.length === 1
+          ? svg.querySelector('[data-node-id="' + activeIds[0] + '"]')
+          : null;
         clearReachability({ updateUrl: false });
         if (Archify.intentTrace && typeof Archify.intentTrace.clear === 'function') {
           Archify.intentTrace.clear({ announce: false });
@@ -7561,6 +8074,10 @@
         }
         if (options.updateUrl !== false) {
           try { history.replaceState(null, '', location.pathname + location.search); } catch (_) {}
+        }
+        if (restoreNode) {
+          try { restoreNode.focus({ preventScroll: true }); }
+          catch (_) { try { restoreNode.focus(); } catch (_) {} }
         }
       }
 
@@ -7695,7 +8212,7 @@
           Archify.view.reveal([id], { includeNeighbors: true, reason: 'focus' });
         }
       });
-      clearBtn.addEventListener('click', function () { clear(); });
+      clearBtn.addEventListener('click', function () { clear({ restoreFocus: true }); });
       copyBtn.addEventListener('click', copyFocusLink);
       upstreamBtn.addEventListener('click', function () { applyReachability('upstream'); });
       downstreamBtn.addEventListener('click', function () { applyReachability('downstream'); });
@@ -7762,6 +8279,13 @@
         event.preventDefault();
         buttons[index].focus();
       });
+      document.addEventListener('click', function (event) {
+        var target = event.target;
+        if (chip.hidden || !target || typeof target.closest !== 'function' || chip.contains(target)) return;
+        if (container.getAttribute('data-just-panned') === 'true') return;
+        if (target.closest('[data-node-id], [data-relationship-hit-key]')) return;
+        clear();
+      }, true);
       window.addEventListener('scroll', requestLensPlacement, { passive: true });
       window.addEventListener('resize', requestLensPlacement);
       container.addEventListener('scroll', requestLensPlacement, { passive: true });
@@ -12667,6 +13191,9 @@
       if (e.defaultPrevented) return;
       var t = e.target;
       if (t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA' || t.isContentEditable)) return;
+      if (Archify.preset && Archify.preset.isOpen() && e.key !== 'Escape' && e.key !== 's' && e.key !== 'S') {
+        Archify.preset.close(false);
+      }
       if (e.key === '?') {
         e.preventDefault();
         Archify.guide.toggle();
@@ -12703,6 +13230,9 @@
       } else if (e.key === '0') {
         e.preventDefault();
         Archify.view.reset();
+      } else if (e.key === 'Escape' && Archify.preset.isOpen()) {
+        e.preventDefault();
+        Archify.preset.close(true);
       } else if (e.key === 'Escape' && Archify.semanticLens.isOpen()) {
         e.preventDefault();
         Archify.semanticLens.close({ restoreFocus: true });
@@ -12723,7 +13253,7 @@
         Archify.intentTrace.clear();
       } else if (e.key === 'Escape' && Archify.focus.active()) {
         e.preventDefault();
-        Archify.focus.clear();
+        Archify.focus.clear({ restoreFocus: true });
       } else if (e.key === 'Escape' && Archify.presentation.active()) {
         e.preventDefault();
         Archify.presentation.exit();
