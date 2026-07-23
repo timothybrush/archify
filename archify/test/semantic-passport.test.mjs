@@ -65,6 +65,7 @@ test('Relationship Lens renders one Semantic Passport and copyable stable focus 
   assert.match(html, /id="focus-context" data-passport="context" hidden/);
   assert.match(html, /id="focus-tag" data-passport="tag" hidden/);
   assert.match(html, /id="focus-id" data-passport="id"/);
+  assert.match(html, /id="btn-focus-clear"[^>]+aria-label="Close semantic passport"[^>]+title="Close">&#215;<\/button>/);
   assert.match(html, /id="btn-focus-copy"[^>]+aria-label="Copy link to focused node"/);
   assert.match(html, /id="btn-focus-relations"[^>]+aria-expanded="false"[^>]+aria-controls="relationship-lens-list"/);
   assert.match(html, /function renderPassport\(id, node\)/);
@@ -77,6 +78,11 @@ test('Relationship Lens renders one Semantic Passport and copyable stable focus 
   assert.match(html, /compactOnMobile = mobile && chip\.getAttribute\('data-relations-expanded'\) !== 'true'/);
   assert.match(html, /nodeTop - chip\.offsetHeight - gap/);
   assert.match(html, /focus-chip:not\(\[data-relations-expanded="true"\]\) \.relationship-lens-list \{ display: none; \}/);
+  assert.match(html, /clearBtn\.addEventListener\('click', function \(\) \{ clear\(\{ restoreFocus: true \}\); \}\)/);
+  assert.match(html, /chip\.hidden \|\| !target \|\| typeof target\.closest !== 'function' \|\| chip\.contains\(target\)/);
+  assert.match(html, /target\.closest\('\[data-node-id\], \[data-relationship-hit-key\]'\)/);
+  assert.match(html, /document\.addEventListener\('click',[\s\S]+?clear\(\);\s+\}, true\);/);
+  assert.match(html, /Archify\.focus\.clear\(\{ restoreFocus: true \}\)/);
 });
 
 test('Node Finder searches and presents the same passport facts', () => {

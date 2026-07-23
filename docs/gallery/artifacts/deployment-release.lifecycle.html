@@ -1354,10 +1354,25 @@
     .relationship-lens-actions {
       display: flex;
       flex-direction: column;
-      align-items: stretch;
+      align-items: flex-end;
       gap: 0.18rem;
     }
     .relationship-lens-actions button { white-space: nowrap; }
+    .relationship-lens-actions #btn-focus-clear {
+      display: grid;
+      width: 1.75rem;
+      height: 1.75rem;
+      padding: 0;
+      place-items: center;
+      color: var(--text-muted);
+      font-size: 1rem;
+      line-height: 1;
+    }
+    .relationship-lens-actions #btn-focus-clear:hover,
+    .relationship-lens-actions #btn-focus-clear:focus-visible {
+      background: var(--toolbar-hover);
+      color: var(--text);
+    }
     .relationship-lens-actions #btn-focus-copy { color: var(--frontend-stroke); }
     .relationship-lens-actions #btn-focus-relations { display: none; }
     .relationship-lens-eyebrow {
@@ -4427,9 +4442,9 @@
             </div>
           </div>
           <div class="relationship-lens-actions">
+            <button id="btn-focus-clear" type="button" aria-label="Close semantic passport" title="Close">&#215;</button>
             <button id="btn-focus-copy" type="button" aria-label="Copy link to focused node">Copy link</button>
             <button id="btn-focus-relations" type="button" aria-label="Show connected relationships" aria-expanded="false" aria-controls="relationship-lens-list">Relations</button>
-            <button id="btn-focus-clear" type="button" aria-label="Clear focused node">Clear</button>
           </div>
         </div>
         <div class="relationship-lens-list" id="relationship-lens-list" aria-label="Connected relationships"></div>
@@ -7461,6 +7476,9 @@
       }
       function clear(options) {
         options = options || {};
+        var restoreNode = options.restoreFocus === true && activeIds.length === 1
+          ? svg.querySelector('[data-node-id="' + activeIds[0] + '"]')
+          : null;
         clearReachability({ updateUrl: false });
         if (Archify.intentTrace && typeof Archify.intentTrace.clear === 'function') {
           Archify.intentTrace.clear({ announce: false });
@@ -7511,6 +7529,10 @@
         }
         if (options.updateUrl !== false) {
           try { history.replaceState(null, '', location.pathname + location.search); } catch (_) {}
+        }
+        if (restoreNode) {
+          try { restoreNode.focus({ preventScroll: true }); }
+          catch (_) { try { restoreNode.focus(); } catch (_) {} }
         }
       }
 
@@ -7645,7 +7667,7 @@
           Archify.view.reveal([id], { includeNeighbors: true, reason: 'focus' });
         }
       });
-      clearBtn.addEventListener('click', function () { clear(); });
+      clearBtn.addEventListener('click', function () { clear({ restoreFocus: true }); });
       copyBtn.addEventListener('click', copyFocusLink);
       upstreamBtn.addEventListener('click', function () { applyReachability('upstream'); });
       downstreamBtn.addEventListener('click', function () { applyReachability('downstream'); });
@@ -7712,6 +7734,13 @@
         event.preventDefault();
         buttons[index].focus();
       });
+      document.addEventListener('click', function (event) {
+        var target = event.target;
+        if (chip.hidden || !target || typeof target.closest !== 'function' || chip.contains(target)) return;
+        if (container.getAttribute('data-just-panned') === 'true') return;
+        if (target.closest('[data-node-id], [data-relationship-hit-key]')) return;
+        clear();
+      }, true);
       window.addEventListener('scroll', requestLensPlacement, { passive: true });
       window.addEventListener('resize', requestLensPlacement);
       container.addEventListener('scroll', requestLensPlacement, { passive: true });
@@ -12673,7 +12702,7 @@
         Archify.intentTrace.clear();
       } else if (e.key === 'Escape' && Archify.focus.active()) {
         e.preventDefault();
-        Archify.focus.clear();
+        Archify.focus.clear({ restoreFocus: true });
       } else if (e.key === 'Escape' && Archify.presentation.active()) {
         e.preventDefault();
         Archify.presentation.exit();

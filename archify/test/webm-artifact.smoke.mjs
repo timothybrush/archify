@@ -295,6 +295,68 @@ try {
     assert.equal(ready, true, `${label} did not expose its browser export surface`);
   }
 
+  async function verifySemanticPassportDismissal(file) {
+    await navigateReady(file, '!!(window.Archify && Archify.focus && document.querySelector("#btn-focus-clear"))', 'Semantic Passport dismissal');
+    const result = await evaluate(cdp, sessionId, `(() => {
+      var chip = document.querySelector('#focus-chip');
+      var close = document.querySelector('#btn-focus-clear');
+      var container = document.querySelector('.diagram-container');
+      var svg = container.querySelector(':scope > svg');
+      var origin = svg.querySelector('[data-node-id="clients"]');
+      var neighbor = svg.querySelector('[data-node-id]:not([data-node-id="clients"])');
+      if (!origin || !neighbor) return { ok: false, error: 'missing smoke-test nodes' };
+      function state() {
+        return { hidden: chip.hidden, active: Archify.focus.active() };
+      }
+
+      Archify.focus.set('clients', { toggle: false, updateUrl: false });
+      var cardRect = chip.getBoundingClientRect();
+      var closeRect = close.getBoundingClientRect();
+      var layout = {
+        topGap: Math.round(closeRect.top - cardRect.top),
+        rightGap: Math.round(cardRect.right - closeRect.right),
+        label: close.getAttribute('aria-label'),
+        title: close.getAttribute('title'),
+        text: close.textContent.trim()
+      };
+      close.click();
+      var afterClose = state();
+      var restoredFocus = document.activeElement && document.activeElement.getAttribute('data-node-id');
+
+      Archify.focus.set('clients', { toggle: false, updateUrl: false });
+      chip.querySelector('.relationship-lens-head').dispatchEvent(new MouseEvent('click', { bubbles: true }));
+      var afterInside = state();
+      container.dispatchEvent(new MouseEvent('click', { bubbles: true }));
+      var afterOutside = state();
+
+      Archify.focus.set('clients', { toggle: false, updateUrl: false });
+      neighbor.dispatchEvent(new MouseEvent('click', { bubbles: true }));
+      var afterNode = state();
+      return {
+        ok: true,
+        layout: layout,
+        afterClose: afterClose,
+        restoredFocus: restoredFocus,
+        afterInside: afterInside,
+        afterOutside: afterOutside,
+        afterNode: afterNode,
+        neighborId: neighbor.getAttribute('data-node-id')
+      };
+    })()`);
+    assert.equal(result?.ok, true, result?.error || 'Semantic Passport smoke failed');
+    assert.equal(result.layout.label, 'Close semantic passport');
+    assert.equal(result.layout.title, 'Close');
+    assert.equal(result.layout.text, '×');
+    assert.ok(result.layout.topGap >= 0 && result.layout.topGap <= 16, `Semantic Passport close top gap ${result.layout.topGap}px`);
+    assert.ok(result.layout.rightGap >= 0 && result.layout.rightGap <= 16, `Semantic Passport close right gap ${result.layout.rightGap}px`);
+    assert.deepEqual(result.afterClose, { hidden: true, active: null });
+    assert.equal(result.restoredFocus, 'clients');
+    assert.deepEqual(result.afterInside, { hidden: false, active: 'clients' });
+    assert.deepEqual(result.afterOutside, { hidden: true, active: null });
+    assert.deepEqual(result.afterNode, { hidden: false, active: result.neighborId });
+    console.log('ok Semantic Passport: close control, focus return, inside preservation, and outside dismissal');
+  }
+
   async function verifyArchitectureDeltaNavigator(file) {
     const readyCondition = '!!document.querySelector("#review-play") && !document.querySelector("#review-play").disabled';
     async function waitForSelected(changeKey, label) {
@@ -1382,6 +1444,7 @@ try {
     console.log(`ok ${label} Reach Card: ${reachPayload.size} bytes, ${reachPayload.snapshot.nodeIds.length} nodes, ${reachPayload.snapshot.edges.length} authored links`);
   }
 
+  await verifySemanticPassportDismissal(path.resolve(skillRoot, '../docs/gallery/artifacts/production-deployment.architecture.html'));
   await verifyArchitectureDeltaNavigator(path.resolve(skillRoot, '../examples/checkout-platform-delta.html'));
   await captureShareCard(output, 'architecture-wide');
   await captureShareCard(sequenceOutput, 'sequence-tall');
